@@ -1,0 +1,45 @@
+
+body{
+background-color: rgb(213, 240, 231);
+color:black;
+}
+.navbar-brand {
+    font-size:xx-large;
+    color:green !important;
+}
+.navbar-brand img{
+    margin-bottom:6px;
+}
+li {
+    text-align:center;
+}
+li a{
+    color:rgb(15, 106, 15) !important;
+}
+ a:hover{
+    color:rgb(4, 193, 4) !important;
+}
+footer{
+    position:fixed;
+    left:50%;
+    min-width:100%;
+    transform:translateX(-50%);
+    bottom:0;
+    padding:10px;
+    text-align:center;
+}
+.register_input{
+    padding:10px ;
+    background:none ;
+    border:2px solid rgb(45, 81, 17);
+    color:rgb(9, 83, 15);
+    outline:none;
+    margin:5px 0;
+    border-radius:6px;
+}
+::placeholder {
+    text-align:center;
+    }
+.register_input:focus{
+    background-color: rgb(229, 238, 150);
+}

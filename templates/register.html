@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %} Register {% endblock%}
+{% block main %}
+<form action="/register" method="post">
+    <div class="mb-3">
+      <input type="username" class="register_input" name="username" aria-describedby="username" placeholder="username">
+    </div>
+    <div class="mb-3">
+      <input type="password" class="register_input" name="password" placeholder="password">
+    </div>
+    <div class="mb-3">
+        <input type="password" class="register_input" name="confirmation" placeholder="password (again)">
+      </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+{% endblock %}
