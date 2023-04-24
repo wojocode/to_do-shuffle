@@ -54,3 +54,6 @@ form{
     padding:30px;
     background-color:rgb(106, 201, 106);
 }
+.alert-success{
+    background-color:rgb(80, 171, 80) !important;
+}

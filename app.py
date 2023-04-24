@@ -26,10 +26,10 @@ def after_request(response):
     return response
 
 
-
 #REGISTER USER#
 @app.route('/register', methods=["POST", "GET"])
 def register():
+    session.clear()
     username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
@@ -37,16 +37,16 @@ def register():
     if request.method == "POST":
 # ensure proper inputs 
         if not username or not password:
-            flash("missing username or password!","danger")
+            flash("Missing username or password!","danger")
             return render_template('register.html')
         elif password != confirmation:
-            flash("password doesn't match!","danger")
+            flash("Password doesn't match!","danger")
             return render_template('register.html')
 
     # check for free username
         rows = db.execute("SELECT username FROM users WHERE username = ?;",username)
         if len(rows) == 1:
-            flash("username is not available!","danger")
+            flash("Username is not available!","danger")
             return render_template('register.html')
         else:
             hash = generate_password_hash(password)
@@ -67,7 +67,7 @@ def login():
         password = request.form.get("password")
 # ensure proper inputs
         if not username or not  password:
-            flash("missing username or password!","danger")
+            flash("Missing username or password!","danger")
             return render_template('login.html')
 # check for user 
         rows = db.execute("SELECT * FROM users WHERE username = ?;",username)
@@ -77,8 +77,23 @@ def login():
             return render_template("index.html")
             
         else:
-            flash("username or password is not correct!","danger")
+            flash("Username or password is not correct!","danger")
             return "not okay"
     else:
         return render_template("login.html")
+    
+
+@app.route('/logout', methods = ["GET", "POST"])
+def logout():   
+    session.clear()
+    flash("Logout succesfull!", "warning")
+    return redirect("/login")
+
+#@app.route('/edit')
+#@login_required
+#def edit():
+    
+    
+    
+
     
