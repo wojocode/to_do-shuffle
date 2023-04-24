@@ -1,4 +1,9 @@
-
+.btn {
+    background-color: green !important;
+    outline:none !important;
+    border-radius:3px !important;
+    border:2px solid rgb(2, 83, 2);
+}
 body{
 background-color: rgb(213, 240, 231);
 color:black;
@@ -30,9 +35,9 @@ footer{
 }
 .register_input{
     padding:10px ;
-    background:none ;
+    background:rgb(153, 216, 58) ;
     border:2px solid rgb(45, 81, 17);
-    color:rgb(9, 83, 15);
+    color:rgb(26, 79, 2);
     outline:none;
     margin:5px 0;
     border-radius:6px;
@@ -42,4 +47,10 @@ footer{
     }
 .register_input:focus{
     background-color: rgb(229, 238, 150);
+}
+form{
+    border-radius:8px;
+    border:1px solid green !important;
+    padding:30px;
+    background-color:rgb(106, 201, 106);
 }
