@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %} Edit {% endblock%}
+{% block main %}
+<div class="mb-3">
+    <form action="/edit", method="post">
+        <input type="text" name="task" value="{{ task }}" autofocus>
+
+        <input class="form-check-input" type="radio" name="category" id="House" value="House">
+        <label class="form-check-label" for="House">House</label>
+
+        <input class="form-check-input" type="radio" name="category" id="Work" value="Work">
+        <label class="form-check-label" for="Work">Work</label>
+
+        <input class="form-check-input" type="radio" name="category" id="Personal" value="Personal">
+        <label class="form-check-label" for="Personal">Personal</label>
+
+        <input type="date" name="date">
+
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
+{% endblock %}

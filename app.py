@@ -4,7 +4,7 @@ from cs50 import SQL
 from flask import Flask, request, redirect, url_for, render_template,flash, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import login_required
+from helpers import login_required,validate_password
 
 app = Flask(__name__)
 
@@ -29,7 +29,6 @@ def after_request(response):
 #REGISTER USER#
 @app.route('/register', methods=["POST", "GET"])
 def register():
-    session.clear()
     username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
@@ -74,8 +73,7 @@ def login():
         if len(rows) == 1 and check_password_hash(rows[0]["hash"], password):
             session["user_id"] = rows[0]["id"]
             flash(f"Hello {username} !","success")
-            return render_template("index.html")
-            
+            return redirect("/")
         else:
             flash("Username or password is not correct!","danger")
             return render_template("login.html")
@@ -89,9 +87,6 @@ def logout():
     flash("Logout succesfull!", "warning")
     return redirect("/login")
 
-#@app.route('/edit')
-#@login_required
-#def edit():
 
 @app.route('/', methods = ["GET", "POST"])
 @login_required
@@ -105,12 +100,19 @@ def index():
             flash("Must provide data!","danger")
             return render_template("index.html")
         db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
-        rows = db.execute("SELECT * FROM tasks;")
-        
+        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        flash("Added task!","success")
+        return render_template("index.html",records = rows)
     else:
-        return render_template("index.html")
+        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        return render_template("index.html", records= rows)
     
-    
-    
-
+@app.route('/edit<row>', methods = ["GET", "POST"])
+@login_required
+def edit(row):
+    if request.method == "POST":
+        #rows = db.execute("SELECT task FROM tasks WHERE user_id IN (SELECT id FROM #users WHERE id = ?);" ,session["user_id"])
+        return render_template("edit.html",task = row)  
+    else:
+        return "poszło GETEM"
     

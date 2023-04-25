@@ -18,7 +18,6 @@
         Personal
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
           1
-          <span class="visually-hidden">unread messages</span>
         </span>
       </button>
 </div>
@@ -40,17 +39,40 @@
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
 </div>
+{% if records %}
 <table class="table">
   <thead>
       <tr>
           <th class="text-start">Task</th>
-          <th class="text-end">Due</th>
           <th class="text-end">Created</th>
+          <th class="text-end">Due</th>
           <th class="text-end">Done</th>
           <th class="text-end">Edit</th>
           <th class="text-end">Delete</th>
       </tr>
   </thead>
   <tbody>
-
+  {% for row in records %}
+  <tr>
+    <td class="text-start">{{ row["task"] }}</td>
+    <td class="text-center">{{ row["created_date"] }}</td>
+    <td class="text-end">{{ row["due_date"] }}</td>
+    <td>
+      <form id="done" action="/done" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
+      </form>
+      </td>
+    <td>
+      <form action="/edit{{row["task"]}}" method="post">
+        <button type="submit">edit</button>
+      </form>
+    </td>
+    <td>
+      <form action="/delete" method="post">
+        <button type="submit">delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  </body>
+  {% endif %}
 {% endblock %}
