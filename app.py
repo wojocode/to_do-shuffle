@@ -78,7 +78,7 @@ def login():
             
         else:
             flash("Username or password is not correct!","danger")
-            return "not okay"
+            return render_template("login.html")
     else:
         return render_template("login.html")
     
@@ -92,6 +92,23 @@ def logout():
 #@app.route('/edit')
 #@login_required
 #def edit():
+
+@app.route('/', methods = ["GET", "POST"])
+@login_required
+def index():
+    if request.method == "POST":
+# check inputs 
+        task = request.form.get("task")
+        category = request.form.get("category")
+        date = request.form.get("date")
+        if not task or not category or not date:
+            flash("Must provide data!","danger")
+            return render_template("index.html")
+        db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
+        rows = db.execute("SELECT * FROM tasks;")
+        
+    else:
+        return render_template("index.html")
     
     
     

@@ -1,5 +1,56 @@
 {% extends "layout.html" %}
 {% block title %} Dashboard {% endblock%}
 {% block main %}
+<div class="mb-3 category_wrapper">
+    <button type="button" class="btn btn-primary position-relative">
+        House
+        <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+          9
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary position-relative">
+        Work
+        <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+          99
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary position-relative">
+        Personal
+        <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+          1
+          <span class="visually-hidden">unread messages</span>
+        </span>
+      </button>
+</div>
+<div class="mb-3">
+    <form action="/", method="post">
+        <input type="text" name="task" placeholder="Write task" autofocus>
+
+        <input class="form-check-input" type="radio" name="category" id="House" value="House">
+        <label class="form-check-label" for="House">House</label>
+
+        <input class="form-check-input" type="radio" name="category" id="Work" value="Work">
+        <label class="form-check-label" for="Work">Work</label>
+
+        <input class="form-check-input" type="radio" name="category" id="Personal" value="Personal">
+        <label class="form-check-label" for="Personal">Personal</label>
+
+        <input type="date" name="date">
+
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
+<table class="table">
+  <thead>
+      <tr>
+          <th class="text-start">Task</th>
+          <th class="text-end">Due</th>
+          <th class="text-end">Created</th>
+          <th class="text-end">Done</th>
+          <th class="text-end">Edit</th>
+          <th class="text-end">Delete</th>
+      </tr>
+  </thead>
+  <tbody>
 
 {% endblock %}

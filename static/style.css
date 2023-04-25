@@ -57,3 +57,31 @@ form{
 .alert-success{
     background-color:rgb(80, 171, 80) !important;
 }
+.category_wrapper{
+display:flex;
+gap:30px;
+justify-content: center;
+padding:0 !important;
+}
+.category_wrapper > .btn{
+    background:none !important;
+    border-radius:8px !important;
+    border:1px solid red;
+    padding:10px;
+    flex:1;
+    max-width:280px;
+}
+table{
+    width:100%;
+    border:1px solid black;
+}
+
+@media screen and (max-width:475px){
+    .category_wrapper{
+        flex-direction:column;
+        align-items:center
+    }
+    .category_wrapper > .btn{
+        min-width:90%;
+    }
+}
