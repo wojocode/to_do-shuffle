@@ -9,6 +9,8 @@
           {% for r in h %}
           {{ r["house"] }}
           {% endfor %}
+          {% else %}
+          0
           {% endif %}
         </span>
       </button>
@@ -19,6 +21,8 @@
           {% for r in w %}
           {{ r["work"] }}
           {% endfor %}
+          {% else %}
+          0
           {% endif %}
         </span>
       </button>
@@ -29,6 +33,8 @@
           {% for r in p %}
           {{ r["personal"] }}
           {% endfor %}
+          {% else %}
+          0
           {% endif %}
         </span>
       </button>
@@ -74,7 +80,7 @@
       </form>
       </td>
     <td>
-      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}" method="post">
+      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post">
         <button type="submit">edit</button>
       </form>
     </td>

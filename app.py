@@ -26,14 +26,11 @@ def after_request(response):
     return response
 
 
-
-
 @app.route('/',)
 @login_required
 def index():
- 
 # selecting records and pass it to display 
-        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
 # SELECT COUNT of each category
         house = db.execute("SELECT COUNT(category) AS house FROM tasks GROUP BY category HAVING category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
         
@@ -44,19 +41,31 @@ def index():
         return render_template("index.html",records = rows,h = house,w = work,p = personal)
 
     
-@app.route('/edit<task>:<category>:<data>', methods = ["GET", "POST"])
+@app.route('/edit<task>:<category>:<data>:<id>', methods = ["GET", "POST"])
 @login_required
-def edit(task,category,data):
+def edit(task,category,data,id):
     if request.method == "POST":
         checked = "checked"
-        return render_template("edit.html",task = task, category = category,data = data,checked= checked)  
+        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked= checked)  
     else:
         return redirect("/")
 
-
+#UPDATE TASK FROM EDIT PAGE
+@app.route('/change<id_user>', methods = ["GET", "POST"])
+@login_required
+def change(id_user):
+    if request.method == "POST":
+        task = request.form.get("task")
+        category = request.form.get("category")
+        date = request.form.get("date")
+        db.execute("UPDATE tasks SET task = ?,category = ?,due_date = ? WHERE id = ?;",task,category,date,id_user)
+        return redirect(url_for('index'))
+        
+        
 @app.route('/add' ,methods = ["POST", "GET"])
 @login_required
 def add():
+    if request.method == "POST":
         task = request.form.get("task")
         category = request.form.get("category")
         date = request.form.get("date")
@@ -68,7 +77,8 @@ def add():
 # insert task 
         db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
         flash("Added task!","success")
-        return redirect('/')
+        return redirect("/")
+
 
 
 #REGISTER USER#
