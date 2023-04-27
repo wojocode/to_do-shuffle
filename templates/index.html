@@ -5,7 +5,7 @@
     <button type="button" class="btn btn-primary position-relative">
         House
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
-          9
+          
         </span>
       </button>
       <button type="button" class="btn btn-primary position-relative">
@@ -62,7 +62,7 @@
       </form>
       </td>
     <td>
-      <form action="/edit{{row["task"]}}" method="post">
+      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}" method="post">
         <button type="submit">edit</button>
       </form>
     </td>

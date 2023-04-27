@@ -2,21 +2,22 @@
 {% block title %} Edit {% endblock%}
 {% block main %}
 <div class="mb-3">
-    <form action="/edit", method="post">
+    <form action="/change", method="post">
         <input type="text" name="task" value="{{ task }}" autofocus>
 
-        <input class="form-check-input" type="radio" name="category" id="House" value="House">
+        
+        <input class="form-check-input" type="radio" name="category" id="House" value="House" {% if category == "House" %}{{ checked }} {% endif %}>
         <label class="form-check-label" for="House">House</label>
 
-        <input class="form-check-input" type="radio" name="category" id="Work" value="Work">
+        <input class="form-check-input" type="radio" name="category" id="Work" value="Work" {% if category == "Work" %}{{ checked }} {% endif %}>
         <label class="form-check-label" for="Work">Work</label>
 
-        <input class="form-check-input" type="radio" name="category" id="Personal" value="Personal">
+        <input class="form-check-input" type="radio" name="category" id="Personal" value="Personal"  {% if category == "Personal" %}{{ checked }} {% endif %}>
         <label class="form-check-label" for="Personal">Personal</label>
 
-        <input type="date" name="date">
+        <input type="date" name="date" value="{{ data }}">
 
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 </div>
 {% endblock %}

@@ -99,20 +99,28 @@ def index():
         if not task or not category or not date:
             flash("Must provide data!","danger")
             return render_template("index.html")
+# insert task 
         db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
+# selecting records and pass it to display 
         rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+# SELECT COUNT of each category
+       # house = db.execute("SELECT COUNT(category) AS house FROM tasks GROUP BY category HAVING category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
         flash("Added task!","success")
         return render_template("index.html",records = rows)
     else:
         rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
         return render_template("index.html", records= rows)
     
-@app.route('/edit<row>', methods = ["GET", "POST"])
+@app.route('/edit<task>:<category>:<data>', methods = ["GET", "POST"])
 @login_required
-def edit(row):
+def edit(task,category,data):
     if request.method == "POST":
-        #rows = db.execute("SELECT task FROM tasks WHERE user_id IN (SELECT id FROM #users WHERE id = ?);" ,session["user_id"])
-        return render_template("edit.html",task = row)  
+        checked = "checked"
+        return render_template("edit.html",task = task, category = category,data = data,checked= checked)  
     else:
-        return "poszło GETEM"
-    
+        return redirect("/")
+
+#@app.route('/change', methods = ["GET", "POST"])
+##def change():
+    #if request.method == "POST":
+        
