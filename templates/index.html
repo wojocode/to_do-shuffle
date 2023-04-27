@@ -5,19 +5,31 @@
     <button type="button" class="btn btn-primary position-relative">
         House
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
-          
+          {% if h %}
+          {% for r in h %}
+          {{ r["house"] }}
+          {% endfor %}
+          {% endif %}
         </span>
       </button>
       <button type="button" class="btn btn-primary position-relative">
         Work
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
-          99
+          {% if w %}
+          {% for r in w %}
+          {{ r["work"] }}
+          {% endfor %}
+          {% endif %}
         </span>
       </button>
       <button type="button" class="btn btn-primary position-relative">
         Personal
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
-          1
+          {% if p %}
+          {% for r in p %}
+          {{ r["personal"] }}
+          {% endfor %}
+          {% endif %}
         </span>
       </button>
 </div>

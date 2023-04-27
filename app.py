@@ -26,6 +26,52 @@ def after_request(response):
     return response
 
 
+@app.route('/', methods = ["GET", "POST"])
+@login_required
+def index():
+    if request.method == "POST":
+# check inputs 
+        task = request.form.get("task")
+        category = request.form.get("category")
+        date = request.form.get("date")
+        
+# selecting records and pass it to display 
+        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+# SELECT COUNT of each category
+        house = db.execute("SELECT COUNT(category) AS house FROM tasks GROUP BY category HAVING category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        
+        work = db.execute("SELECT COUNT(category) AS work FROM tasks GROUP BY category HAVING category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        
+        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks GROUP BY category HAVING category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        
+        if not task or not category or not date:
+            flash("Must provide data!","danger")
+            return render_template("index.html",records = rows,h = house,w = work,p = personal)
+        
+# insert task 
+        db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
+    
+        flash("Added task!","success")
+        return render_template("index.html",records = rows,h = house,w = work,p = personal)
+    else:
+        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        
+        house = db.execute("SELECT COUNT(category) AS house FROM tasks GROUP BY category HAVING category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        
+        work = db.execute("SELECT COUNT(category) AS work FROM tasks GROUP BY category HAVING category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        
+        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks GROUP BY category HAVING category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        return render_template("index.html", records= rows,h = house,w = work, p = personal)
+    
+@app.route('/edit<task>:<category>:<data>', methods = ["GET", "POST"])
+@login_required
+def edit(task,category,data):
+    if request.method == "POST":
+        checked = "checked"
+        return render_template("edit.html",task = task, category = category,data = data,checked= checked)  
+    else:
+        return redirect("/")
+
 #REGISTER USER#
 @app.route('/register', methods=["POST", "GET"])
 def register():
@@ -53,11 +99,11 @@ def register():
             rows = db.execute("SELECT * FROM users WHERE username = ?;",username)
             session["user_id"] = rows[0]["id"]
             flash(f"Hello {username} !","success")
-            return render_template("index.html")           
+            return redirect("/")           
     else:
         return render_template("register.html")
 
-        
+
 @app.route('/login', methods = ["POST", "GET"])
 def login():
     session.clear()
@@ -80,47 +126,10 @@ def login():
     else:
         return render_template("login.html")
     
-
+    
 @app.route('/logout', methods = ["GET", "POST"])
 def logout():   
     session.clear()
     flash("Logout succesfull!", "warning")
-    return redirect("/login")
-
-
-@app.route('/', methods = ["GET", "POST"])
-@login_required
-def index():
-    if request.method == "POST":
-# check inputs 
-        task = request.form.get("task")
-        category = request.form.get("category")
-        date = request.form.get("date")
-        if not task or not category or not date:
-            flash("Must provide data!","danger")
-            return render_template("index.html")
-# insert task 
-        db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
-# selecting records and pass it to display 
-        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
-# SELECT COUNT of each category
-       # house = db.execute("SELECT COUNT(category) AS house FROM tasks GROUP BY category HAVING category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
-        flash("Added task!","success")
-        return render_template("index.html",records = rows)
-    else:
-        rows = db.execute("SELECT task,category,created_date,due_date FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
-        return render_template("index.html", records= rows)
-    
-@app.route('/edit<task>:<category>:<data>', methods = ["GET", "POST"])
-@login_required
-def edit(task,category,data):
-    if request.method == "POST":
-        checked = "checked"
-        return render_template("edit.html",task = task, category = category,data = data,checked= checked)  
-    else:
-        return redirect("/")
-
-#@app.route('/change', methods = ["GET", "POST"])
-##def change():
-    #if request.method == "POST":
+    return redirect("/")
         
