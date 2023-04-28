@@ -32,11 +32,11 @@ def index():
 # selecting records and pass it to display 
         rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
 # SELECT COUNT of each category
-        house = db.execute("SELECT COUNT(category) AS house FROM tasks GROUP BY category HAVING category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
         
-        work = db.execute("SELECT COUNT(category) AS work FROM tasks GROUP BY category HAVING category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
         
-        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks GROUP BY category HAVING category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
         
         return render_template("index.html",records = rows,h = house,w = work,p = personal)
 
