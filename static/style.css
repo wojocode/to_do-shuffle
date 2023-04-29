@@ -67,10 +67,10 @@ padding:0 !important;
 .category_wrapper > .btn{
     background:none !important;
     border-radius:8px !important;
-    border:1px solid red;
     padding:10px;
     flex:1;
     max-width:280px;
+    border-width:3px;
 }
 table{
     width:100%;
@@ -80,6 +80,20 @@ table{
     padding:0;
     background:none;
     border:none !important;
+}
+
+/* CATEGORY CLASSES */ 
+.house {
+    border-color:rgb(233, 233, 10);
+    background-color: rgb(221, 221, 19);
+}
+.work {
+    border-color:rgb(152, 147, 147);
+    background-color: rgb(152, 147, 147);;
+}
+.personal {
+    border-color:rgb(182, 21, 182);
+    background-color:rgb(195, 18, 195);
 }
 @media screen and (max-width:475px){
     .category_wrapper{

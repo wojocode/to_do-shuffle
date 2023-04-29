@@ -142,3 +142,8 @@ def logout():
     flash("Logout succesfull!", "warning")
     return redirect("/")
         
+@app.route('/delete<id>', methods = ["POST"])
+def delete(id):
+    db.execute("DELETE FROM tasks WHERE id = ?",id)
+    flash("Task deleted!","success")
+    return redirect('/')
