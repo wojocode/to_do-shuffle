@@ -1,0 +1,17 @@
+{% extends "layout-2.html" %}
+{% block title %} Preview {% endblock%}
+{% block button %}
+<button type="button" class="btn house position-relative" onclick="location.href='/House'">
+    {{ category }}
+    <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+      {% if h %}
+      {% for r in h %}
+      {{ r["{{ category_lower }}"] }}
+      {% endfor %}
+      {% else %}
+      0
+      {% endif %}
+    </span>
+  </button>
+{% endblock %}
+

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock%}
+{% block main %}
+{% block button %}{% endblock %}
+{% for row in records %}
+  <!-- add backgrounds to task depends on category-->
+  <tr class= 
+  {% if row["category"] == "Work" %}
+    "work"
+    {% elif row["category"] == "House" %}
+    "house"
+    {% elif row["category"] == "Personal" %}
+    "personal"
+    {% endif %}
+    >
+    <td class="text-start">{{ row["task"] }}</td>
+    <td class="text-center">{{ row["created_date"] }}</td>
+    <td class="text-end">{{ row["due_date"] }}</td>
+    <!-- checkbox done -->
+    <td>
+      <form id="done" action="/done" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
+      </form>
+      </td>
+    <!-- edit button -->
+      <td>
+      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post">
+        <button type="submit">edit</button>
+      </form>
+    </td>
+    <!-- delete button -->
+    <td>
+      <form action="/delete{{row["id"] }}" method="post">
+        <button type="submit">delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+{% endblock %}

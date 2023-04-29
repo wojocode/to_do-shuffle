@@ -147,3 +147,9 @@ def delete(id):
     db.execute("DELETE FROM tasks WHERE id = ?",id)
     flash("Task deleted!","success")
     return redirect('/')
+
+@app.route('/<category>')
+def house(category):
+    rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND category = ?;",session["user_id"],category)
+    cat_lower = category.lower()
+    return render_template("preview.html",records = rows,category_lower = cat_lower,category= category)

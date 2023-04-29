@@ -2,7 +2,7 @@
 {% block title %} Dashboard {% endblock%}
 {% block main %}
 <div class="mb-3 category_wrapper">
-  <button type="button" class="btn house position-relative" >
+  <button type="button" class="btn house position-relative" onclick="location.href='/House'">
         House
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
           {% if h %}
@@ -15,7 +15,7 @@
         </span>
       </button>
     
-      <button type="button" class="btn work position-relative">
+      <button type="button" class="btn work position-relative" onclick="location.href='/Work'">
         Work
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
           {% if w %}
@@ -27,7 +27,7 @@
           {% endif %}
         </span>
       </button>
-      <button type="button" class="btn personal position-relative">
+      <button type="button" class="btn personal position-relative" onclick="location.href='/Personal'">
         Personal
         <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
           {% if p %}
