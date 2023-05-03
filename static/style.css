@@ -95,6 +95,9 @@ table{
     border-color:rgb(182, 21, 182);
     background-color:rgb(195, 18, 195);
 }
+button:disabled{
+    opacity:0.85 !important;
+}
 @media screen and (max-width:475px){
     .category_wrapper{
         flex-direction:column;
