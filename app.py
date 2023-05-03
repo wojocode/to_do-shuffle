@@ -152,18 +152,18 @@ def delete(id):
 def house(category):
     cat = category
     row = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND category = ?;",session["user_id"],category)
-    #cat_lower = category.lower()
+    cat_lower = cat.lower()
     
     if category == "House":
         house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
-        return render_template("preview.html",records = row,cat = cat, h = house)
+        return render_template("preview.html",records = row,cat = cat, h = house,cat_lower = cat_lower)
         
     elif category == "Work":
         work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
-        return render_template("preview.html",records = row,cat = cat, w = work)
+        return render_template("preview.html",records = row,cat = cat, w = work,cat_lower = cat_lower)
       
     elif category == "Personal":  
         personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
-        return render_template("preview.html",records = row,cat = cat, p = personal)
+        return render_template("preview.html",records = row,cat = cat, p = personal, cat_lower = cat_lower)
    
 

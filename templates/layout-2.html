@@ -39,13 +39,13 @@
     <!-- edit button -->
       <td>
       <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post">
-        <button type="submit">edit</button>
+        <button type="submit"><i class="icon-pencil"></i></button>
       </form>
     </td>
     <!-- delete button -->
     <td>
       <form action="/delete{{row["id"] }}" method="post">
-        <button type="submit">delete</button>
+        <button type="submit"><i class="icon-trash-1"></i></button>
       </form>
     </td>
   </tr>
