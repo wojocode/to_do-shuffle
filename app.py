@@ -29,56 +29,16 @@ def after_request(response):
 @app.route('/',)
 @login_required
 def index():
-# selecting records and pass it to display 
-        rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+# display active records 
+        rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
 # SELECT COUNT of each category
-        house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         
-        work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         
-        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         
         return render_template("index.html",records = rows,h = house,w = work,p = personal)
-
-    
-@app.route('/edit<task>:<category>:<data>:<id>', methods = ["GET", "POST"])
-@login_required
-def edit(task,category,data,id):
-    if request.method == "POST":
-        checked = "checked"
-        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked= checked)  
-    else:
-        return redirect("/")
-
-#UPDATE TASK FROM EDIT PAGE
-@app.route('/change<id_user>', methods = ["GET", "POST"])
-@login_required
-def change(id_user):
-    if request.method == "POST":
-        task = request.form.get("task")
-        category = request.form.get("category")
-        date = request.form.get("date")
-        db.execute("UPDATE tasks SET task = ?,category = ?,due_date = ? WHERE id = ?;",task,category,date,id_user)
-        return redirect(url_for('index'))
-        
-        
-@app.route('/add' ,methods = ["POST", "GET"])
-@login_required
-def add():
-    if request.method == "POST":
-        task = request.form.get("task")
-        category = request.form.get("category")
-        date = request.form.get("date")
-        
-        if not task or not category or not date:
-            flash("Must provide data!","danger")
-            return redirect("/")
-
-# insert task 
-        db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
-        flash("Added task!","success")
-        return redirect("/")
-
 
 
 #REGISTER USER#
@@ -141,29 +101,97 @@ def logout():
     session.clear()
     flash("Logout succesfull!", "warning")
     return redirect("/")
+ 
         
-@app.route('/delete<id>', methods = ["POST"])
-def delete(id):
-    db.execute("DELETE FROM tasks WHERE id = ?",id)
-    flash("Task deleted!","success")
-    return redirect('/')
 
 @app.route('/<category>')
 def house(category):
     cat = category
-    row = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND category = ?;",session["user_id"],category)
+    row = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND category = ? AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"],category)
     cat_lower = cat.lower()
     
     if category == "House":
-        house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         return render_template("preview.html",records = row,cat = cat, h = house,cat_lower = cat_lower)
         
     elif category == "Work":
-        work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         return render_template("preview.html",records = row,cat = cat, w = work,cat_lower = cat_lower)
       
     elif category == "Personal":  
-        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?);",session["user_id"])
+        personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         return render_template("preview.html",records = row,cat = cat, p = personal, cat_lower = cat_lower)
    
 
+### TASK ###
+@app.route('/add' ,methods = ["POST", "GET"])
+@login_required
+def add():
+    if request.method == "POST":
+        task = request.form.get("task")
+        category = request.form.get("category")
+        date = request.form.get("date")
+        
+        if not task or not category or not date:
+            flash("Must provide data!","danger")
+            return redirect("/")
+
+# insert task 
+        db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
+
+# keep track of tasks
+        id = db.execute("SELECT id FROM tasks ORDER BY id DESC LIMIT 1")
+        db.execute("INSERT INTO archieve (task_id,status) VALUES (?,'active')",id[0]["id"])
+        flash("Added task!","success")
+        return redirect("/")
+
+
+
+@app.route('/delete<id>', methods = ["POST"])
+def delete(id):
+
+# update status and set archieved date
+    db.execute("UPDATE archieve SET status = 'deleted', archieved = DATE() WHERE task_id = ?;",id )
+    
+    flash("Task deleted!","success")
+    return redirect('/')
+
+
+@app.route('/done<id>', methods = ["POST"])
+def done(id):
+# update status and insert archieved date
+    db.execute("UPDATE archieve SET status = 'done', archieved = DATE() WHERE task_id = ?;",id )
+  
+    #db.execute("DELETE FROM tasks WHERE id = ?",id)
+    flash("Task completed!","success")
+    return redirect('/')
+
+
+@app.route('/done_cat<id>', methods = ["POST"])
+def done_cat(id):
+    db.execute("UPDATE archieve SET status = 'done', archieved = DATE() WHERE task_id = ?;",id )
+    #db.execute("DELETE FROM tasks WHERE id = ?",id)
+    flash("Task completed!","success")
+    return redirect('/')
+
+
+#UPDATE TASK FROM EDIT PAGE
+@app.route('/change<id_user>', methods = ["GET", "POST"])
+@login_required
+def change(id_user):
+    if request.method == "POST":
+        task = request.form.get("task")
+        category = request.form.get("category")
+        date = request.form.get("date")
+        db.execute("UPDATE tasks SET task = ?,category = ?,due_date = ? WHERE id = ?;",task,category,date,id_user)
+        return redirect(url_for('index'))
+    
+    
+@app.route('/edit<task>:<category>:<data>:<id>', methods = ["GET", "POST"])
+@login_required
+def edit(task,category,data,id):
+    if request.method == "POST":
+        checked = "checked"
+        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked= checked)  
+    else:
+        return redirect("/")

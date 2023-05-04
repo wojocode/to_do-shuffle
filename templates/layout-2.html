@@ -33,7 +33,7 @@
     <td class="text-end">{{ row["due_date"] }}</td>
     <!-- checkbox done -->
     <td>
-      <form id="done" action="/done" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
+      <form id="done" action="/done_cat{{row["id"]}}" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
       </form>
       </td>
     <!-- edit button -->
