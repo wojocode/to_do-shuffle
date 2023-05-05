@@ -1,6 +1,6 @@
-{% extends "layout-2.html" %}
+{% extends "layout.html" %}
 {% block title %} Preview {% endblock%}
-{% block button %}
+{% block main %}
 <div class="mb-3 category_wrapper">
 <button type="button" class="btn {{ cat_lower }} position-relative">
     {{ cat }}
@@ -17,6 +17,50 @@
     </span>
   </button>
 </div>
-
+<table class="table">
+  <thead>
+      <tr>
+          <th class="text-start">Task</th>
+          <th class="text-end">Created</th>
+          <th class="text-end">Due</th>
+          <th class="text-end">Done</th>
+          <th class="text-end">Edit</th>
+          <th class="text-end">Delete</th>
+      </tr>
+  </thead>
+  <tbody>
+  {% for row in records %}
+  <!-- add backgrounds to task depends on category-->
+  <tr class= 
+  {% if row["category"] == "Work" %}
+    "work"
+    {% elif row["category"] == "House" %}
+    "house"
+    {% elif row["category"] == "Personal" %}
+    "personal"
+    {% endif %}
+    >
+    <td class="text-start">{{ row["task"] }}</td>
+    <td class="text-center">{{ row["created_date"] }}</td>
+    <td class="text-end">{{ row["due_date"] }}</td>
+    <!-- checkbox done -->
+    <td>
+      <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
+      </form>
+      </td>
+    <!-- edit button -->
+      <td>
+      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post">
+        <button type="submit"><i class="icon-pencil"></i></button>
+      </form>
+    </td>
+    <!-- delete button -->
+    <td>
+      <form action="/delete{{row["id"] }}" method="post">
+        <button type="submit"><i class="icon-trash-1"></i></button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
 {% endblock %}
 
