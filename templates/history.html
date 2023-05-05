@@ -13,6 +13,15 @@
   </thead>
   {% for r in record %}
   <tbody>
+    <tr class= 
+  {% if r["category"] == "Work" %}
+    "work"
+    {% elif r["category"] == "House" %}
+    "house"
+    {% elif r["category"] == "Personal" %}
+    "personal"
+    {% endif %}
+    >
     <td class="text-start">{{ r["task"] }}</td>
     <td class="text-end">{{ r["archieved"] }}</td>
     <td class="text-center">
@@ -28,6 +37,7 @@
         <i class="icon-history text-center "></i>
       </form>
     </td>
+  </tr>
   </tbody>
   {% endfor %}
 {% endif %}

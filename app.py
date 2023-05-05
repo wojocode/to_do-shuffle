@@ -5,6 +5,7 @@ from flask import Flask, request, redirect, url_for, render_template,flash, sess
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required,validate_password
+from random import choice 
 
 app = Flask(__name__)
 
@@ -201,12 +202,8 @@ def edit(task,category,data,id):
 @app.route('/history')
 @login_required
 def history():
-    #if request.method == "POST":
-        #db.execute("UPDATE archieve SET status = 'active' WHERE task_id IN (SELECT id FROM tasks WHERE #user_id IN (SELECT id FROM users WHERE id = ?)",session["user_id"])
-        #return redirect('/')
-        
+    
         r = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"])
-        
         return render_template('history.html',record = r)
     
     
@@ -216,4 +213,16 @@ def restore(id):
      if request.method == "POST":
         db.execute("UPDATE archieve SET status = 'active' WHERE task_id IN (SELECT id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id = ?)",session["user_id"],id)
         return redirect('/')
+
+
+@app.route('/shuffle')
+@login_required
+def shuffle():
+    r = db.execute("SELECT id FROM tasks WHERE user_id = ? AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
+# generete random task id 
+    shuffle = choice(r)
+    number = shuffle["id"]
+    rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id = ?;", session["user_id"], number)
     
+    return render_template("shuffle.html", records = rows)
+
