@@ -29,7 +29,16 @@
                 {% if session["user_id"] %}
                 <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav me-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">History</a>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="/history">Show all</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="/clear">Clear</a></li>
+                                </ul>
+                              </li>
+                            
                             {% if records %}
                             <li class="nav-item"><a class="nav-link" href="/shuffle">Shuffle</a></li>
                             {% endif %}

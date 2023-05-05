@@ -226,3 +226,8 @@ def shuffle():
     
     return render_template("shuffle.html", records = rows)
 
+@app.route('/clear')
+@login_required
+def clear():
+    db.execute("DELETE FROM archieve WHERE status != 'active' AND task_id IN (SELECT id FROM tasks WHERE user_id = ?);",session["user_id"])
+    return redirect('/')
