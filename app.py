@@ -103,7 +103,6 @@ def logout():
     return redirect("/")
  
         
-
 @app.route('/<category>')
 def house(category):
     cat = category
@@ -140,14 +139,14 @@ def add():
         db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
 
 # keep track of tasks
-        id = db.execute("SELECT id FROM tasks ORDER BY id DESC LIMIT 1")
-        db.execute("INSERT INTO archieve (task_id,status) VALUES (?,'active')",id[0]["id"])
+        id = db.execute("SELECT id FROM tasks WHERE user_id = ? ORDER BY id DESC LIMIT 1",session["user_id"])
+        db.execute("INSERT INTO archieve (task_id,status) VALUES (?,'active');",id[0]["id"])
         flash("Added task!","success")
         return redirect("/")
 
 
-
 @app.route('/delete<id>', methods = ["POST"])
+@login_required
 def delete(id):
 
 # update status and set archieved date
@@ -158,9 +157,10 @@ def delete(id):
 
 
 @app.route('/done<id>', methods = ["POST"])
+@login_required
 def done(id):
 # update status and insert archieved date
-    db.execute("UPDATE archieve SET status = 'done', archieved = DATE() WHERE task_id = ?;",id )
+    db.execute("UPDATE archieve SET status = 'done', archieved = DATE() WHERE task_id = ? AND task_id IN (SELECT id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?));",id,session["user_id"])
   
     #db.execute("DELETE FROM tasks WHERE id = ?",id)
     flash("Task completed!","success")
@@ -168,6 +168,7 @@ def done(id):
 
 
 @app.route('/done_cat<id>', methods = ["POST"])
+@login_required
 def done_cat(id):
     db.execute("UPDATE archieve SET status = 'done', archieved = DATE() WHERE task_id = ?;",id )
     #db.execute("DELETE FROM tasks WHERE id = ?",id)
@@ -192,6 +193,27 @@ def change(id_user):
 def edit(task,category,data,id):
     if request.method == "POST":
         checked = "checked"
-        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked= checked)  
+        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked = checked)  
     else:
         return redirect("/")
+    
+
+@app.route('/history')
+@login_required
+def history():
+    #if request.method == "POST":
+        #db.execute("UPDATE archieve SET status = 'active' WHERE task_id IN (SELECT id FROM tasks WHERE #user_id IN (SELECT id FROM users WHERE id = ?)",session["user_id"])
+        #return redirect('/')
+        
+        r = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"])
+        
+        return render_template('history.html',record = r)
+    
+    
+@app.route('/restore<id>', methods = ["GET", "POST"])
+@login_required
+def restore(id):
+     if request.method == "POST":
+        db.execute("UPDATE archieve SET status = 'active' WHERE task_id IN (SELECT id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id = ?)",session["user_id"],id)
+        return redirect('/')
+    

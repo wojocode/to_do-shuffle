@@ -1,0 +1,34 @@
+{% extends "layout.html"%}
+{% block title%} History {% endblock%}
+{% block main %}
+{% if record%}
+<table class="table">
+  <thead>
+      <tr>
+          <th class="text-start">Task</th>
+          <th class="text-end">Archieved</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Restore</th>
+      </tr>
+  </thead>
+  {% for r in record %}
+  <tbody>
+    <td class="text-start">{{ r["task"] }}</td>
+    <td class="text-end">{{ r["archieved"] }}</td>
+    <td class="text-center">
+        {% if r["status"] == 'done' %}
+        <i class="icon-ok text-center"></i>
+        {% elif r["status"] == 'deleted' %}
+        <i class="icon-trash-1 text-center"></i>
+        {% endif %}
+    </td>
+    <td>
+      <form action="/restore{{ r['id'] }}" method="post">
+        <button type="submit">
+        <i class="icon-history text-center "></i>
+      </form>
+    </td>
+  </tbody>
+  {% endfor %}
+{% endif %}
+{% endblock %}

@@ -23,6 +23,24 @@
       "css": "pencil",
       "code": 59392,
       "src": "elusive"
+    },
+    {
+      "uid": "d4816c0845aa43767213d45574b3b145",
+      "css": "history",
+      "code": 61914,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "3bd18d47a12b8709e9f4fe9ead4f7518",
+      "css": "arrows-ccw",
+      "code": 59395,
+      "src": "entypo"
+    },
+    {
+      "uid": "3d349daaea304032a7669b4f24931b6c",
+      "css": "shuffle",
+      "code": 59396,
+      "src": "entypo"
     }
   ]
 }

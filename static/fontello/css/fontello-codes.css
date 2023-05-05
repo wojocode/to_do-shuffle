@@ -2,3 +2,6 @@
 .icon-pencil:before { content: '\e800'; } /* '' */
 .icon-ok:before { content: '\e801'; } /* '' */
 .icon-trash-1:before { content: '\e802'; } /* '' */
+.icon-arrows-ccw:before { content: '\e803'; } /* '' */
+.icon-shuffle:before { content: '\e804'; } /* '' */
+.icon-history:before { content: '\f1da'; } /* '' */
