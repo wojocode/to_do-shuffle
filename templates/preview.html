@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 {% block title %} Preview {% endblock%}
 {% block main %}
+<nav style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">preview</li>
+  </ol>
+</nav>
 <div class="mb-3 category_wrapper">
 <button type="button" class="btn {{ cat_lower }} position-relative">
     {{ cat }}

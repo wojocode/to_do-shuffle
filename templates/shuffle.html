@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 {% block title %} Shuffle {% endblock %}
 {% block main %}
+<nav style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">shuffle</li>
+  </ol>
+</nav>
 {% if records %}
 <h1 class="text-center"><a href="/shuffle">Shuffle<i class="icon-shuffle"></i></a></h1>
 <table class="table">

@@ -32,6 +32,10 @@ def after_request(response):
 def index():
 # display active records 
         rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
+        
+# pass to html history records 
+        history_rows = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"])
+        
 # SELECT COUNT of each category
         house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         
@@ -39,7 +43,7 @@ def index():
         
         personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         
-        return render_template("index.html",records = rows,h = house,w = work,p = personal)
+        return render_template("index.html",records = rows,h = house,w = work,p = personal,hist_row = history_rows)
 
 
 #REGISTER USER#
@@ -54,6 +58,11 @@ def register():
         if not username or not password:
             flash("Missing username or password!","danger")
             return render_template('register.html')
+# password validation
+        elif validate_password(password) == False:
+            flash("Password is too short (at least 8 characters)!","danger")
+            return render_template('register.html')
+        
         elif password != confirmation:
             flash("Password doesn't match!","danger")
             return render_template('register.html')
@@ -135,10 +144,8 @@ def add():
         if not task or not category or not date:
             flash("Must provide data!","danger")
             return redirect("/")
-
 # insert task 
         db.execute("INSERT INTO tasks (task,category,created_date,due_date,user_id) VALUES(?,?,DATE(),?,?);", task,category,date,session["user_id"])
-
 # keep track of tasks
         id = db.execute("SELECT id FROM tasks WHERE user_id = ? ORDER BY id DESC LIMIT 1",session["user_id"])
         db.execute("INSERT INTO archieve (task_id,status) VALUES (?,'active');",id[0]["id"])
@@ -149,10 +156,8 @@ def add():
 @app.route('/delete<id>', methods = ["POST"])
 @login_required
 def delete(id):
-
 # update status and set archieved date
     db.execute("UPDATE archieve SET status = 'deleted', archieved = DATE() WHERE task_id = ?;",id )
-    
     flash("Task deleted!","success")
     return redirect('/')
 
@@ -160,10 +165,7 @@ def delete(id):
 @app.route('/done<id>', methods = ["POST"])
 @login_required
 def done(id):
-# update status and insert archieved date
     db.execute("UPDATE archieve SET status = 'done', archieved = DATE() WHERE task_id = ? AND task_id IN (SELECT id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?));",id,session["user_id"])
-  
-    #db.execute("DELETE FROM tasks WHERE id = ?",id)
     flash("Task completed!","success")
     return redirect('/')
 
@@ -202,7 +204,6 @@ def edit(task,category,data,id):
 @app.route('/history')
 @login_required
 def history():
-    
         r = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"])
         return render_template('history.html',record = r)
     
@@ -223,7 +224,6 @@ def shuffle():
     shuffle = choice(r)
     number = shuffle["id"]
     rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id = ?;", session["user_id"], number)
-    
     return render_template("shuffle.html", records = rows)
 
 @app.route('/clear')
