@@ -51,18 +51,18 @@
     <td class="text-end">{{ row["due_date"] }}</td>
     <!-- checkbox done -->
     <td>
-      <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
+      <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="task_form"><input type="checkbox" name="done">
       </form>
       </td>
     <!-- edit button -->
       <td>
-      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post">
+      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post" class="task_form">
         <button type="submit"><i class="icon-pencil"></i></button>
       </form>
     </td>
     <!-- delete button -->
     <td>
-      <form action="/delete{{row["id"] }}" method="post">
+      <form action="/delete{{row["id"] }}" method="post" class="task_form">
         <button type="submit"><i class="icon-trash-1"></i></button>
       </form>
     </td>

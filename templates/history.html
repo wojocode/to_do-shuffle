@@ -3,8 +3,7 @@
 {% block main %}
 <nav style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">history</li>
+    <li class="breadcrumb-item"><a href="/"><</a></li>
   </ol>
 </nav>
 {% if record%}
@@ -38,9 +37,9 @@
         {% endif %}
     </td>
     <td>
-      <form action="/restore{{ r['id'] }}" method="post">
+      <form action="/restore{{ r['id'] }}" method="post" class="task_form">
         <button type="submit">
-        <i class="icon-history text-center "></i>
+        <i class="icon-history text-center"></i>
       </form>
     </td>
   </tr>

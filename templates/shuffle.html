@@ -8,7 +8,7 @@
   </ol>
 </nav>
 {% if records %}
-<h1 class="text-center"><a href="/shuffle">Shuffle<i class="icon-shuffle"></i></a></h1>
+<h1 class="text-center shuffle"><a href="/shuffle">Shuffle<i class="icon-shuffle"></i></a></h1>
 <table class="table">
     <table class="table">
         <thead>
@@ -16,9 +16,9 @@
                 <th class="text-start">Task</th>
                 <th class="text-end">Created</th>
                 <th class="text-end">Due</th>
-                <th class="text-end">Done</th>
-                <th class="text-end">Edit</th>
-                <th class="text-end">Delete</th>
+                <th class="text-center">Done</th>
+                <th class="text-center">Edit</th>
+                <th class="text-center">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -37,18 +37,18 @@
           <td class="text-center">{{ row["created_date"] }}</td>
           <td class="text-end">{{ row["due_date"] }}</td>
           <td>
-            <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()"><input type="checkbox" name="done">
+            <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="task_form"><input type="checkbox" name="done">
             </form>
             </td>
           <!-- edit button -->
             <td>
-            <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post">
+            <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post" class="task_form">
               <button type="submit"><i class="icon-pencil"></i></button>
             </form>
           </td>
           <!-- delete button -->
           <td>
-            <form action="/delete{{row["id"] }}" method="post">
+            <form action="/delete{{row["id"] }}" method="post" class="task_form">
               <button type="submit"><i class="icon-trash-1"></i></button>
             </form>
           </td>

@@ -107,6 +107,13 @@ table{
     width:100%;
     border:1px solid black;
 }
+.task_add{
+    display:flex;
+    justify-content: center;
+    flex-wrap:wrap;
+    align-items: center;
+    gap:10px;
+}
 #done{
     padding:0;
     background:none;
@@ -129,6 +136,43 @@ table{
 button:disabled{
     opacity:0.85 !important;
 }
+.task_form{
+    background: none;
+    border:none !important;
+    padding:0 !important;
+    margin:0 !important;
+    width:auto !important;
+}
+.shuffle {
+    display:flex;
+    justify-content: center;
+}
+.shuffle a {
+    font-family:Amatic;
+    text-decoration: none;
+    font-size:55px;
+    color:rgb(89, 197, 89);
+    letter-spacing: 5px;
+    border:4px solid rgb(4, 193, 4);
+    padding:8px;
+    border-radius:10px;
+    background-color: cadetblue;
+    display:flex;
+    align-items: center;
+    width:250px;
+    justify-content: center;
+}
+.shuffle  i{
+    font-size:30px;
+}
+@media screen and (max-width:767px){
+    .task_add{
+        flex-direction:column;
+        gap:10px;
+        padding:15px;
+    }
+}
+    
 @media screen and (max-width:475px){
     .category_wrapper{
         flex-direction:column;
