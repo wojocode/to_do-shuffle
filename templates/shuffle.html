@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 {% block title %} Shuffle {% endblock %}
 {% block main %}
-<nav style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+<nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">shuffle</li>
+    <li class="breadcrumb-item"><a href="/">< back</a></li>
   </ol>
 </nav>
 {% if records %}
@@ -14,8 +13,8 @@
         <thead>
             <tr>
                 <th class="text-start">Task</th>
-                <th class="text-end">Created</th>
-                <th class="text-end">Due</th>
+                <th class="text-end visible">Created</th>
+                <th class="text-end visible">Due</th>
                 <th class="text-center">Done</th>
                 <th class="text-center">Edit</th>
                 <th class="text-center">Delete</th>
@@ -34,8 +33,8 @@
           {% endif %}
           >
           <td class="text-start">{{ row["task"] }}</td>
-          <td class="text-center">{{ row["created_date"] }}</td>
-          <td class="text-end">{{ row["due_date"] }}</td>
+          <td class="text-end visible">{{ row["created_date"] }}</td>
+          <td class="text-end visible">{{ row["due_date"] }}</td>
           <td>
             <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="task_form"><input type="checkbox" name="done">
             </form>

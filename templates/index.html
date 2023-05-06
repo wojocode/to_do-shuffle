@@ -66,8 +66,8 @@
   <thead>
       <tr>
           <th class="text-start">Task</th>
-          <th class="text-end">Created</th>
-          <th class="text-end">Due</th>
+          <th class="text-end visible">Created</th>
+          <th class="text-end visible">Due</th>
           <th class="text-center">Done</th>
           <th class="text-center">Edit</th>
           <th class="text-center">Delete</th>
@@ -86,8 +86,8 @@
     {% endif %}
     >
     <td class="text-start">{{ row["task"] }}</td>
-    <td class="text-end">{{ row["created_date"] }}</td>
-    <td class="text-end">{{ row["due_date"] }}</td>
+    <td class="text-end visible">{{ row["created_date"] }}</td>
+    <td class="text-end visible">{{ row["due_date"] }}</td>
     <!-- checkbox done -->
     <td>
       <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="text-center"><input type="checkbox" name="done">

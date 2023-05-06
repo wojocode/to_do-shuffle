@@ -1,9 +1,9 @@
 {% extends "layout.html"%}
 {% block title%} History {% endblock%}
 {% block main %}
-<nav style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+<nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/"><</a></li>
+    <li class="breadcrumb-item"><a href="/">< back</a></li>
   </ol>
 </nav>
 {% if record%}
@@ -11,7 +11,7 @@
   <thead>
       <tr>
           <th class="text-start">Task</th>
-          <th class="text-end">Archieved</th>
+          <th class="text-end">Achieved</th>
           <th class="text-center">Status</th>
           <th class="text-center">Restore</th>
       </tr>

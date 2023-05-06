@@ -1,10 +1,9 @@
 {% extends "layout.html" %}
 {% block title %} Preview {% endblock%}
 {% block main %}
-<nav style="--bs-breadcrumb-divider: '->';" aria-label="breadcrumb">
+<nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">preview</li>
+    <li class="breadcrumb-item"><a href="/">< back</a></li>
   </ol>
 </nav>
 <div class="mb-3 category_wrapper">
@@ -27,11 +26,11 @@
   <thead>
       <tr>
           <th class="text-start">Task</th>
-          <th class="text-end">Created</th>
-          <th class="text-end">Due</th>
-          <th class="text-end">Done</th>
-          <th class="text-end">Edit</th>
-          <th class="text-end">Delete</th>
+          <th class="text-end visible">Created</th>
+          <th class="text-end visible">Due</th>
+          <th class="text-center">Done</th>
+          <th class="text-center">Edit</th>
+          <th class="text-center">Delete</th>
       </tr>
   </thead>
   <tbody>
@@ -47,22 +46,22 @@
     {% endif %}
     >
     <td class="text-start">{{ row["task"] }}</td>
-    <td class="text-center">{{ row["created_date"] }}</td>
-    <td class="text-end">{{ row["due_date"] }}</td>
+    <td class="text-center visible">{{ row["created_date"] }}</td>
+    <td class="text-end visible">{{ row["due_date"] }}</td>
     <!-- checkbox done -->
     <td>
-      <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="task_form"><input type="checkbox" name="done">
+      <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="task_form text-center"><input type="checkbox" name="done">
       </form>
       </td>
     <!-- edit button -->
       <td>
-      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post" class="task_form">
+      <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post" class="task_form text-center">
         <button type="submit"><i class="icon-pencil"></i></button>
       </form>
     </td>
     <!-- delete button -->
     <td>
-      <form action="/delete{{row["id"] }}" method="post" class="task_form">
+      <form action="/delete{{row["id"] }}" method="post" class="task_form text-center">
         <button type="submit"><i class="icon-trash-1"></i></button>
       </form>
     </td>
