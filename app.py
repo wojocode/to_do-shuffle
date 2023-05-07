@@ -26,7 +26,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
 @app.route('/',)
 @login_required
 def index():
@@ -43,7 +42,12 @@ def index():
         
         personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
         
-        return render_template("index.html",records = rows,h = house,w = work,p = personal,hist_row = history_rows)
+        if len(rows) >= 2:
+            shuffle = True
+        else:
+            shuffle = False
+        
+        return render_template("index.html",records = rows,h = house,w = work,p = personal,hist_row = history_rows,shuffle = shuffle)
 
 
 #REGISTER USER#
