@@ -35,7 +35,7 @@
   </thead>
   <tbody>
   {% for row in records %}
-  <!-- add backgrounds to task depends on category-->
+<!-- add backgrounds to task depends on category-->
   <tr class= 
   {% if row["category"] == "Work" %}
     "work"
@@ -48,18 +48,18 @@
     <td class="text-start">{{ row["task"] }}</td>
     <td class="text-end visible">{{ row["created_date"] }}</td>
     <td class="text-end visible">{{ row["due_date"] }}</td>
-    <!-- checkbox done -->
+  <!-- checkbox done + submit on click -->
     <td>
       <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="task_form text-center"><input type="checkbox" name="done">
       </form>
       </td>
-    <!-- edit button -->
+  <!-- edit button -->
       <td>
       <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post" class="task_form text-center">
         <button type="submit"><i class="icon-pencil"></i></button>
       </form>
     </td>
-    <!-- delete button -->
+  <!-- delete button -->
     <td>
       <form action="/delete{{row["id"] }}" method="post" class="task_form text-center">
         <button type="submit"><i class="icon-trash-1"></i></button>

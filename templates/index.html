@@ -14,7 +14,6 @@
           {% endif %}
         </span>
       </button>
-    
       <button type="button" class="btn work position-relative" onclick="location.href='/Work'" 
       {% if w[0]["work"] == 0 %} disabled {% endif %}>
         Work
@@ -42,6 +41,7 @@
         </span>
       </button>
 </div>
+<!-- Add task form -->
 <div class="mb-3">
     <form action="/add", method="post" class="task_add">
         <input type="text" name="task" placeholder="Write task" autofocus maxlength="25">
@@ -61,6 +61,7 @@
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
 </div>
+<!-- display task if exist -->
 {% if records %}
 <table class="table">
   <thead>
@@ -75,7 +76,7 @@
   </thead>
   <tbody>
   {% for row in records %}
-  <!-- add backgrounds to task depends on category-->
+<!-- add backgrounds to task depends on category-->
   <tr class= 
   {% if row["category"] == "Work" %}
     "work"
@@ -88,18 +89,18 @@
     <td class="text-start">{{ row["task"] }}</td>
     <td class="text-end visible">{{ row["created_date"] }}</td>
     <td class="text-end visible">{{ row["due_date"] }}</td>
-    <!-- checkbox done -->
+  <!-- checkbox done -->
     <td>
       <form id="done" action="/done{{row["id"] }}" method="post" onchange="document.getElementById('done').submit()" class="text-center"><input type="checkbox" name="done">
       </form>
       </td>
-    <!-- edit button -->
+  <!-- edit button -->
       <td>
       <form action="/edit{{row["task"]}}:{{row["category"]}}:{{row["due_date"]}}:{{row["id"]}}" method="post" class="task_form text-center">
         <button type="submit"><i class="icon-pencil"></i></button>
       </form>
     </td>
-    <!-- delete button -->
+  <!-- delete button -->
     <td>
       <form action="/delete{{row["id"] }}" method="post" class="task_form text-center">
         <button type="submit"><i class="icon-trash-1"></i></button>

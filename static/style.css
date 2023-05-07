@@ -10,16 +10,16 @@
     font-family:"Sen";
     src: url("/static/fonts/Sen/Sen-Regular.ttf");
 }
-
+a:hover{
+    color:rgb(4, 193, 4) !important;
+}
+.alert-success{
+    background-color:rgb(80, 171, 80) !important;
+}
 button[type=button]{
     font-family:Indie_Flower;
     font-size:20px;
     letter-spacing: 2px;
-}
-.rounded-pill{
-    font-family:Arial, Helvetica, sans-serif;
-    font-size:13px;
-    letter-spacing: initial;
 }
 .btn {
     background-color: green !important;
@@ -29,36 +29,40 @@ button[type=button]{
     padding:5px 30px;
 }
 body{
-background-color: rgb(213, 240, 231);
-color:black;
-font-family:Sen;
-font-size:17px;
+    background-color: rgb(213, 240, 231);
+    color:black;
+    font-family:Sen;
+    font-size:17px;
 }
-
+button:disabled{
+    opacity:0.85 !important;
+}
 .breadcrumb-item a{
     font-size:20px;
     text-decoration:none;
 }
-.navbar-brand {
-    font-size:50px;
-    color:green !important;
-    font-family: Amatic;
-}
-.navbar-brand img{
-    margin-bottom:6px;
-}
-li {
-    text-align:center;
-}
-li a{
-    color:rgb(15, 106, 15) !important;
-}
- a:hover{
-    color:rgb(4, 193, 4) !important;
+.category_wrapper{
+    display:flex;
+    gap:30px;
+    justify-content: center;
+    padding:0 !important;
+    }
+.category_wrapper > .btn{
+    background:none !important;
+    border-radius:8px !important;
+    padding:10px;
+    flex:1;
+    max-width:280px;
+    border-width:3px;
 }
 .disabled {
     pointer-events: none !important;
     opacity:0.6 !important;
+}
+#done{
+    padding:0;
+    background:none;
+    border:none !important;
 }
 footer{
     position:fixed;
@@ -72,6 +76,22 @@ footer{
     display:flex;
     align-items: center;
     justify-content: center;
+}
+footer a{
+    color:black;
+    text-decoration:none;
+}
+form{
+    border-radius:8px;
+    border:1px solid green !important;
+    padding:30px;
+    background-color:rgb(106, 201, 106);
+}
+li {
+    text-align:center;
+}
+li a{
+    color:rgb(15, 106, 15) !important;
 }
 .register_input{
     padding:10px ;
@@ -88,72 +108,21 @@ footer{
 .register_input:focus{
     background-color: rgb(229, 238, 150);
 }
-form{
-    border-radius:8px;
-    border:1px solid green !important;
-    padding:30px;
-    background-color:rgb(106, 201, 106);
+nav {
+    font-size:20px;
 }
-.alert-success{
-    background-color:rgb(80, 171, 80) !important;
+.navbar-brand {
+    font-size:50px;
+    color:green !important;
+    font-family: Amatic;
 }
-.category_wrapper{
-display:flex;
-gap:30px;
-justify-content: center;
-padding:0 !important;
+.navbar-brand img{
+    margin-bottom:6px;
 }
-.category_wrapper > .btn{
-    background:none !important;
-    border-radius:8px !important;
-    padding:10px;
-    flex:1;
-    max-width:280px;
-    border-width:3px;
-}
-table{
-    width:100%;
-    border:1px solid black;
-}
-.task_add{
-    display:flex;
-    justify-content: center;
-    flex-wrap:wrap;
-    align-items: center;
-    gap:15px;
-}
-#done{
-    padding:0;
-    background:none;
-    border:none !important;
-}
-footer a{
-    color:black;
-    text-decoration:none;
-}
-
-/* CATEGORY CLASSES */ 
-.house {
-    border-color:rgb(233, 233, 10);
-    background-color: rgb(228, 228, 104);
-}
-.work {
-    border-color:rgb(152, 147, 147);
-    background-color: rgb(152, 147, 147);;
-}
-.personal {
-    border-color:rgb(182, 21, 182);
-    background-color:rgba(195, 18, 195, 0.59);
-}
-button:disabled{
-    opacity:0.85 !important;
-}
-.task_form{
-    background: none;
-    border:none !important;
-    padding:0 !important;
-    margin:0 !important;
-    width:auto !important;
+.rounded-pill{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:13px;
+    letter-spacing: initial;
 }
 .shuffle {
     display:flex;
@@ -174,12 +143,41 @@ button:disabled{
     width:250px;
     justify-content: center;
 }
-.shuffle  i{
+.shuffle i{
     font-size:30px;
 }
-nav {
-    font-size:20px;
+table{
+    width:100%;
+    border:1px solid black;
 }
+.task_add{
+    display:flex;
+    justify-content: center;
+    flex-wrap:wrap;
+    align-items: center;
+    gap:15px;
+}
+.task_form{
+    background: none;
+    border:none !important;
+    padding:0 !important;
+    margin:0 !important;
+    width:auto !important;
+}
+/* CATEGORY CLASSES */ 
+.house {
+    border-color:rgb(233, 233, 10);
+    background-color: rgb(228, 228, 104);
+}
+.work {
+    border-color:rgb(152, 147, 147);
+    background-color: rgb(152, 147, 147);;
+}
+.personal {
+    border-color:rgb(182, 21, 182);
+    background-color:rgba(195, 18, 195, 0.59);
+}
+
 @media screen and (max-width:767px){
     .task_add{
         flex-direction:column;
