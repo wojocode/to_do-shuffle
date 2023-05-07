@@ -38,16 +38,16 @@ def index():
         personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
 # display shuffle function when user have more than 1 task
         if len(rows) >= 2:
-            shuffle = True
+            shuffle = "active"
         else:
-            shuffle = False
+            shuffle = "unactive"
  # hide/display history button depends on task quantity        
         if len(history_rows) < 1:
-            history = False
+            history = "unactive"
         else:
-            history = True
+            history = "active"
     
-        return render_template("index.html",records = rows,h = house,w = work,p = personal,history_rows = history,shuffle = shuffle)
+        return render_template("index.html",records = rows,h = house,w = work,p = personal,history = history, shuffle = shuffle)
 
 #REGISTER USER#
 @app.route('/register', methods=["POST", "GET"])

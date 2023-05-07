@@ -1,22 +1,22 @@
-@font-face{
+@font-face {
     font-family:"Amatic";
     src: url("/static/fonts/Amatic_SC/AmaticSC-Bold.ttf");
 }
-@font-face{
+@font-face {
     font-family:"Indie_Flower";
     src: url("/static/fonts/Indie_Flower/IndieFlower-Regular.ttf");
 }
-@font-face{
+@font-face {
     font-family:"Sen";
     src: url("/static/fonts/Sen/Sen-Regular.ttf");
 }
-a:hover{
+a:hover {
     color:rgb(4, 193, 4) !important;
 }
-.alert-success{
+.alert-success {
     background-color:rgb(80, 171, 80) !important;
 }
-button[type=button]{
+button[type=button] {
     font-family:Indie_Flower;
     font-size:20px;
     letter-spacing: 2px;
@@ -28,26 +28,26 @@ button[type=button]{
     border:2px solid rgb(2, 83, 2);
     padding:5px 30px;
 }
-body{
+body {
     background-color: rgb(213, 240, 231);
     color:black;
     font-family:Sen;
     font-size:17px;
 }
-button:disabled{
+button:disabled {
     opacity:0.85 !important;
 }
-.breadcrumb-item a{
+.breadcrumb-item a {
     font-size:20px;
     text-decoration:none;
 }
-.category_wrapper{
+.category_wrapper {
     display:flex;
     gap:30px;
     justify-content: center;
     padding:0 !important;
     }
-.category_wrapper > .btn{
+.category_wrapper > .btn {
     background:none !important;
     border-radius:8px !important;
     padding:10px;
@@ -59,12 +59,12 @@ button:disabled{
     pointer-events: none !important;
     opacity:0.6 !important;
 }
-#done{
+#done {
     padding:0;
     background:none;
     border:none !important;
 }
-footer{
+footer {
     position:fixed;
     left:50%;
     min-width:100%;
@@ -77,11 +77,11 @@ footer{
     align-items: center;
     justify-content: center;
 }
-footer a{
+footer a {
     color:black;
     text-decoration:none;
 }
-form{
+form {
     border-radius:8px;
     border:1px solid green !important;
     padding:30px;
@@ -90,10 +90,10 @@ form{
 li {
     text-align:center;
 }
-li a{
+li a {
     color:rgb(15, 106, 15) !important;
 }
-.register_input{
+.register_input {
     padding:10px ;
     background:rgb(153, 216, 58) ;
     border:2px solid rgb(45, 81, 17);
@@ -105,7 +105,7 @@ li a{
 ::placeholder {
     text-align:center;
     }
-.register_input:focus{
+.register_input:focus {
     background-color: rgb(229, 238, 150);
 }
 nav {
@@ -116,10 +116,10 @@ nav {
     color:green !important;
     font-family: Amatic;
 }
-.navbar-brand img{
+.navbar-brand img {
     margin-bottom:6px;
 }
-.rounded-pill{
+.rounded-pill {
     font-family:Arial, Helvetica, sans-serif;
     font-size:13px;
     letter-spacing: initial;
@@ -143,21 +143,21 @@ nav {
     width:250px;
     justify-content: center;
 }
-.shuffle i{
+.shuffle i {
     font-size:30px;
 }
-table{
+table {
     width:100%;
     border:1px solid black;
 }
-.task_add{
+.task_add {
     display:flex;
     justify-content: center;
     flex-wrap:wrap;
     align-items: center;
     gap:15px;
 }
-.task_form{
+.task_form {
     background: none;
     border:none !important;
     padding:0 !important;
@@ -178,23 +178,23 @@ table{
     background-color:rgba(195, 18, 195, 0.59);
 }
 
-@media screen and (max-width:767px){
-    .task_add{
+@media screen and (max-width:767px) {
+    .task_add {
         flex-direction:column;
         gap:10px;
         padding:15px;
     }
 }
     
-@media screen and (max-width:475px){
-    .category_wrapper{
+@media screen and (max-width:475px) {
+    .category_wrapper {
         flex-direction:column;
         align-items:center
     }
-    .category_wrapper > .btn{
+    .category_wrapper > .btn {
         min-width:90%;
     }
-    .visible{
+    .visible {
         display:none;
     }
 }
