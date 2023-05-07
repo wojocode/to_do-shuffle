@@ -30,6 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav me-auto mt-2">
                             
+                            {% if history_rows %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">History</a>
                                 <ul class="dropdown-menu">
@@ -38,13 +39,12 @@
                                   <li><a class="dropdown-item" href="/clear">Clear</a></li>
                                 </ul>
                               </li>
-                            
+                            {% endif %}
                             {% if shuffle %}
                             <li class="nav-item"><a class="nav-link" href="/shuffle">Shuffle</a></li>
                             {% endif %}
                         </ul>
                         <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/edit">Edit</a></li>
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                         </ul>
                 {% else %}
@@ -68,6 +68,7 @@
   {% endfor %}
   {% endif %}
 {% endwith %}
+
         <main class="container py-4 text-center">
             {% block main %}{% endblock %}
         <footer>
