@@ -120,15 +120,32 @@ def house(category):
     cat = category
     row = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND category = ? AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"],category)
     cat_lower = cat.lower()
+    
+# display active records 
+    rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])  
+# pass to html history records 
+    history_rows = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"]) 
+    
+# display shuffle function when user have more than 1 task
+    if len(rows) >= 2:
+        shuffle = "active"
+    else:
+        shuffle = "unactive"
+ # hide/display history button depends on task quantity        
+    if len(history_rows) < 1:
+        history = "unactive"
+    else:
+        history = "active"
+        
     if category == "House":
         house = db.execute("SELECT COUNT(category) AS house FROM tasks WHERE category = 'House' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
-        return render_template("preview.html",records = row,cat = cat, h = house,cat_lower = cat_lower)
+        return render_template("preview.html",records = row,cat = cat, h = house,cat_lower = cat_lower,history = history, shuffle = shuffle)
     elif category == "Work":
         work = db.execute("SELECT COUNT(category) AS work FROM tasks WHERE category = 'Work' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
-        return render_template("preview.html",records = row,cat = cat, w = work,cat_lower = cat_lower)
+        return render_template("preview.html",records = row,cat = cat, w = work,cat_lower = cat_lower,history = history, shuffle = shuffle)
     elif category == "Personal":  
         personal = db.execute("SELECT COUNT(category) AS personal FROM tasks WHERE category = 'Personal' AND user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
-        return render_template("preview.html",records = row,cat = cat, p = personal, cat_lower = cat_lower)
+        return render_template("preview.html",records = row,cat = cat, p = personal, cat_lower = cat_lower,history = history, shuffle = shuffle)
    
 ### TASK ###
 @app.route('/add' ,methods = ["POST", "GET"])
@@ -194,7 +211,22 @@ def change(id_user):
 def edit(task,category,data,id):
     if request.method == "POST":
         checked = "checked"
-        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked = checked)  
+    # display active records 
+        rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])  
+    # pass to html history records 
+        history_rows = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"]) 
+    # display shuffle function when user have more than 1 task
+        if len(rows) >= 2:
+            shuffle = "active"
+        else:
+            shuffle = "unactive"
+    # hide/display history button depends on task quantity        
+        if len(history_rows) < 1:
+            history = "unactive"
+        else:
+            history = "active"
+            
+        return render_template("edit.html",task = task, category = category,data = data,id_number = id, checked = checked,history = history, shuffle = shuffle)  
     else:
         return redirect("/")
     
@@ -202,7 +234,24 @@ def edit(task,category,data,id):
 @login_required
 def history():
         r = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"])
-        return render_template('history.html',record = r)
+        
+# display active records 
+        rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])  
+# pass to html history records 
+        history_rows = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"]) 
+        
+# display shuffle function when user have more than 1 task
+        if len(rows) >= 2:
+            shuffle = "active"
+        else:
+            shuffle = "unactive"
+ # hide/display history button depends on task quantity        
+        if len(history_rows) < 1:
+            history = "unactive"
+        else:
+            history = "active"
+        
+        return render_template('history.html',record = r,history = history, shuffle = shuffle)
     
 @app.route('/restore<id>', methods = ["GET", "POST"])
 @login_required
@@ -215,11 +264,28 @@ def restore(id):
 @login_required
 def shuffle():
     r = db.execute("SELECT id FROM tasks WHERE user_id = ? AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])
+    
+    # display active records 
+    rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id IN (SELECT task_id FROM archieve WHERE status = 'active');",session["user_id"])  
+# pass to html history records 
+    history_rows = db.execute("SELECT * FROM archieve INNER JOIN tasks ON tasks.id = archieve.task_id WHERE tasks.user_id = ? AND archieve.status != 'active';",session["user_id"]) 
+    
+# display shuffle function when user have more than 1 task
+    if len(rows) >= 2:
+        shuffle = "active"
+    else:
+        shuffle = "unactive"
+ # hide/display history button depends on task quantity        
+    if len(history_rows) < 1:
+        history = "unactive"
+    else:
+        history = "active"
+
 # generete random task id 
     shuffle = choice(r)
     number = shuffle["id"]
     rows = db.execute("SELECT task,category,created_date,due_date,id FROM tasks WHERE user_id IN (SELECT id FROM users WHERE id = ?) AND id = ?;", session["user_id"], number)
-    return render_template("shuffle.html", records = rows)
+    return render_template("shuffle.html", records = rows,history = history, shuffle = shuffle)
 
 @app.route('/clear')
 @login_required

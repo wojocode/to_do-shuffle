@@ -1,20 +1,6 @@
 {% extends "layout.html" %}
 {% block title %} Dashboard {% endblock%}
-{% block shuffle %}
-<li class={% if shuffle == "active" %} "nav-item" {% elif shuffle == "unactive" %} "nav-item disabled"{% endif %} ><a class="nav-link" href="/shuffle">Shuffle</a></li>
-{% endblock%}
-
-{% block history %}
-    <li class={% if history == "active" %} "nav-item dropdown" {% elif history == "unactive" %} "nav-item dropdown disabled" {% endif %}>
-      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">History</a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/history">Show all</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/clear">Clear</a></li>
-        </ul>
-      </li>
-{% endblock%} 
-
+ 
 {% block main %}
 <div class="mb-3 category_wrapper">
   <button type="button" class="btn house position-relative" onclick="location.href='/House'" {% if h[0]["house"] == 0 %} disabled {% endif %}>
