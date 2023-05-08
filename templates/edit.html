@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block title %} Edit {% endblock%}
 {% block main %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">< back</a></li>
+    </ol>
+  </nav>
 <div class="mb-3">
     <form action="/change{{id_number}}", method="post" class="task_add">
         <input type="text" name="task" value="{{ task }}" autofocus>
