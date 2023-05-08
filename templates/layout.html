@@ -23,8 +23,8 @@
                 {% if session["user_id"] %}
                 <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav me-auto mt-2">
+    
                             {% block history %}{% endblock%}
-                            
                             {% block shuffle %}{% endblock%}
                             
                         </ul>
@@ -54,6 +54,7 @@
 {% endwith %}
         <main class="container py-4 text-center">
             {% block main %}{% endblock %}
+          
         <footer>
             Developed by <a href="https://github.com/wojocode"><i class="icon-github-circled"></i></a> <span class="last_mod"></span>  &copy;
         </footer>

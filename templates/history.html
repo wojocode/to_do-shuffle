@@ -44,9 +44,11 @@
     </td>
   </tr>
   </tbody>
+
   {% endfor %}
 {% endif %}
-<form action="/clear", method="get" class="task_add">
-<button type="submit" class="btn btn-primary">Clear</button>
-</form>
+</table>
+<form action="/clear", method="get" class="task_add clear">
+  <button type="submit" class="btn btn-primary">Clear</button>
+  </form>
 {% endblock %}

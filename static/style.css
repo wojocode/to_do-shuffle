@@ -55,6 +55,11 @@ button:disabled {
     max-width:280px;
     border-width:3px;
 }
+.clear {
+    background:none;
+    border:none !important;
+    padding:15px;
+}
 .disabled {
     pointer-events: none !important;
     opacity:0.6 !important;
@@ -177,7 +182,6 @@ table {
     border-color:rgb(182, 21, 182);
     background-color:rgba(195, 18, 195, 0.59);
 }
-
 @media screen and (max-width:767px) {
     .task_add {
         flex-direction:column;
