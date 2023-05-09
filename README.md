@@ -40,9 +40,11 @@ You can easily modified task by clicking on edit button.
 - use werkzeug.security library for hashing password
 - hosted on heroku
 
-you can visit this webside https://todo-list-shuffle.herokuapp.com/
+### Link:
+You can try this webside [click here!](https://todo-list-shuffle.herokuapp.com/) 
+ 
 
 ### Previev 
 <p align="center" margin-top="30">
-  <img width="300" src="./static/app_preview.png" alt="Logo">
+  <img min-width="150" max-width="450" src="./static/app_preview.png" alt="Logo">
 </p>
