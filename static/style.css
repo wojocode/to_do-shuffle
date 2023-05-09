@@ -182,6 +182,7 @@ table {
     border-color:rgb(182, 21, 182);
     background-color:rgba(195, 18, 195, 0.59);
 }
+
 @media screen and (max-width:767px) {
     .task_add {
         flex-direction:column;
@@ -189,7 +190,6 @@ table {
         padding:15px;
     }
 }
-    
 @media screen and (max-width:475px) {
     .category_wrapper {
         flex-direction:column;
@@ -199,6 +199,9 @@ table {
         min-width:90%;
     }
     .visible {
+        display:none;
+    }
+    footer span{
         display:none;
     }
 }
