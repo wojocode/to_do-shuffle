@@ -21,6 +21,9 @@ button[type=button] {
     font-size:20px;
     letter-spacing: 2px;
 }
+button:disabled {
+    opacity:0.85 !important;
+}
 .btn {
     background-color: green !important;
     outline:none !important;
@@ -33,9 +36,6 @@ body {
     color:black;
     font-family:Sen;
     font-size:17px;
-}
-button:disabled {
-    opacity:0.85 !important;
 }
 .breadcrumb-item a {
     font-size:20px;
@@ -112,6 +112,9 @@ li a {
     }
 .register_input:focus {
     background-color: rgb(229, 238, 150);
+}
+main {
+    margin-bottom:40px;
 }
 nav {
     font-size:20px;
@@ -190,18 +193,33 @@ table {
         padding:15px;
     }
 }
-@media screen and (max-width:475px) {
-    .category_wrapper {
-        flex-direction:column;
-        align-items:center
-    }
-    .category_wrapper > .btn {
-        min-width:90%;
-    }
+@media screen and (max-width:575px){
     .visible {
         display:none;
     }
     footer span{
         display:none;
+    }
+}
+@media screen and (max-width:475px) {
+    button[type=button] {
+    font-size:18px;
+    padding:5px !important;
+    }
+    .category_wrapper {
+        flex-direction:column;
+        align-items:center
+    }
+    .category_wrapper > .btn {
+        min-width:80%;
+    }
+    .navbar-brand {
+        font-size:42px;
+    }
+    li {
+        font-size:14px;
+    }
+    .rounded-pill {
+        font-size:11px;
     }
 }
