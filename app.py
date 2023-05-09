@@ -291,3 +291,5 @@ def clear():
     db.execute("DELETE FROM archieve WHERE status != 'active' AND task_id IN (SELECT id FROM tasks WHERE user_id = ?);",session["user_id"])
     return redirect('/')
 
+if __name__ == "__main__":
+    app.run()
