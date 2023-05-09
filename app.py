@@ -52,6 +52,7 @@ def index():
 #REGISTER USER#
 @app.route('/register', methods=["POST", "GET"])
 def register():
+    session.clear()
     username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
@@ -289,6 +290,7 @@ def shuffle():
 @login_required
 def clear():
     db.execute("DELETE FROM archieve WHERE status != 'active' AND task_id IN (SELECT id FROM tasks WHERE user_id = ?);",session["user_id"])
+    flash("History deleted !","success")
     return redirect('/')
 
 if __name__ == "__main__":

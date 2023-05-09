@@ -10,6 +10,9 @@
     font-family:"Sen";
     src: url("/static/fonts/Sen/Sen-Regular.ttf");
 }
+a{
+    transition: color 0.15s ease-in-out;
+}
 a:hover {
     color:rgb(4, 193, 4) !important;
 }
@@ -22,7 +25,7 @@ button[type=button] {
     letter-spacing: 2px;
 }
 button:disabled {
-    opacity:0.85 !important;
+    opacity:0.80 !important;
 }
 .btn {
     background-color: green !important;
@@ -92,6 +95,13 @@ form {
     padding:30px;
     background-color:rgb(106, 201, 106);
 }
+.form-text{
+    color:rgb(123, 122, 122);
+}
+input[type="checkbox"]{
+    width:18px;
+    height:18px;
+}
 li {
     text-align:center;
 }
@@ -100,16 +110,17 @@ li a {
 }
 .register_input {
     padding:10px ;
-    background:rgb(153, 216, 58) ;
+    background:rgb(163, 230, 62) ;
     border:2px solid rgb(45, 81, 17);
-    color:rgb(26, 79, 2);
+    color:rgb(11, 33, 1);
     outline:none;
     margin:5px 0;
     border-radius:6px;
+    letter-spacing:1px;
 }
 ::placeholder {
     text-align:center;
-    }
+}
 .register_input:focus {
     background-color: rgb(229, 238, 150);
 }
@@ -126,6 +137,9 @@ nav {
 }
 .navbar-brand img {
     margin-bottom:6px;
+}
+td {
+    vertical-align: middle;
 }
 .rounded-pill {
     font-family:Arial, Helvetica, sans-serif;
@@ -202,9 +216,9 @@ table {
     }
 }
 @media screen and (max-width:475px) {
-    button[type=button] {
-    font-size:18px;
+    .position-relative{
     padding:5px !important;
+    font-size:17px !important;
     }
     .category_wrapper {
         flex-direction:column;
@@ -217,7 +231,7 @@ table {
         font-size:42px;
     }
     li {
-        font-size:14px;
+        font-size:15px;
     }
     .rounded-pill {
         font-size:11px;
